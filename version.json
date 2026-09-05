@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "buildDate": "2026-08-25T00:00:00.000Z",
+  "productName": "Radon Client",
+  "downloadUrl": "https://github.com/RadonClient/Radon-Client/releases/latest",
+  "releaseNotes": "Initial release of Radon Client. Added support for Modrinth, CurseForge, Fabric, Forge, NeoForge, and Quilt modloaders. Auto-update system implemented.",
+  "isPrerelease": false,
+  "updateCheckUrl": "https://raw.githubusercontent.com/RadonClient/Radon-Client/main/version.json",
+  "githubRepo": "RadonClient/Radon-Client"
+}
