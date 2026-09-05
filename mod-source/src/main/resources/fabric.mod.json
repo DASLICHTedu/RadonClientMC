@@ -1,0 +1,31 @@
+{
+  "fabric.mod.json": {
+    "schemaVersion": 1,
+    "id": "nova-hud",
+    "version": "1.0.0",
+    "name": "Nova HUD Overlay (Lunar Style)",
+    "description": "Lunar Client style in-game HUD overlay (CPS, FPS, Armor, Keystrokes) toggleable with Right Caps Lock / F8.",
+    "authors": [
+      "Nova Client"
+    ],
+    "contact": {
+      "website": "https://novaclient.io"
+    },
+    "license": "MIT",
+    "icon": "assets/nova-hud/icon.png",
+    "environment": "client",
+    "entrypoints": {
+      "client": [
+        "com.novaclient.hud.NovaHudClient"
+      ]
+    },
+    "mixins": [
+      "nova-hud.mixins.json"
+    ],
+    "depends": {
+      "fabricloader": ">=0.14.0",
+      "minecraft": ">=1.20.0",
+      "java": ">=17"
+    }
+  }
+}

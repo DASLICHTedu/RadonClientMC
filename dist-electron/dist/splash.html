@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang=de>
+<head>
+  <meta charset=UTF-8>
+  <meta name=viewport content=width=device-width, initial-scale=1.0>
+  <title>Radon Client</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    .splash-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #090b10;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 16px;
+    }
+    .skip-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      padding: 4px 10px;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 11px;
+      letter-spacing: 0.3px;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class=splash-container id=container>
+    <video id=introVideo autoplay muted playsinline preload=auto>
+      <source src=intro.mp4 type=video/mp4>
+      <source src=./assets/intro.mp4 type=video/mp4>
+      <source src=../renderer/assets/intro.mp4 type=video/mp4>
+    </video>
+    <div class=skip-badge>Klicken zum Überspringen</div>
+  </div>
+
+  <script>
+    const video = document.getElementById('introVideo');
+    let finished = false;
+
+    function finishSplash() {
+      if (finished) return;
+      finished = true;
+      if (window.splashAPI && typeof window.splashAPI.done === 'function') {
+        window.splashAPI.done();
+      }
+    }
+
+    if (video) {
+      video.addEventListener('ended', finishSplash);
+      video.addEventListener('error', (err) => {
+        console.warn(Video playback error/fallback:, err);
+        finishSplash();
+      });
+
+      // Explicit play trigger
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn(Autoplay was prevented or delayed:, err);
+        });
+      }
+    }
+
+    // Allow user to click or press keys to skip
+    window.addEventListener('click', finishSplash);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Escape' || e.key === 'Enter') {
+        finishSplash();
+      }
+    });
+
+    // Safety timeout (e.g. 7.5 seconds fallback)
+    setTimeout(finishSplash, 7500);
+  </script>
+</body>
+</html>
